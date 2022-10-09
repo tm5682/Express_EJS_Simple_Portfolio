@@ -5,7 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan'); 
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var aboutRouter = require('./routes/about');
+var projectsRouter = require('./routes/myprojects');
+var servicesRouter = require('./routes/services');
+var contactRouter = require('./routes/contact');
+
+
+const { fileLoader } = require('ejs');
+const { writeHeapSnapshot } = require('v8');
 
 var app = express();
 
@@ -21,13 +28,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
+/* For some reason my images from public folder wasnot 
+getting shown so I found this solution from stackoverflow:
+https://stackoverflow.com/questions/5924072/express-js-cant-get-my-static-files-why
+ */
 app.use('/img',express.static(path.join(__dirname, 'public/images')));
 app.use('/js',express.static(path.join(__dirname, 'public/javascripts')));
 app.use('/css',express.static(path.join(__dirname, 'public/stylesheets')));
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/about', aboutRouter);
+app.use('/myprojects', projectsRouter);
+app.use('/services', servicesRouter);
+app.use('/contact', contactRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
