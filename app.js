@@ -13,7 +13,7 @@ var contactRouter = require('./routes/contact');
 var businessRouter = require('./routes/businesspage');
 var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
-
+var userstatusRouter = require('./routes/userstatus');
 
 const { fileLoader } = require('ejs');
 const { writeHeapSnapshot } = require('v8');
@@ -50,6 +50,7 @@ app.use('/contact', contactRouter);
 app.use('/businesspage', businessRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/userstatus', userstatusRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
