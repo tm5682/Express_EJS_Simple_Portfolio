@@ -10,6 +10,8 @@ var projectsRouter = require('./routes/myprojects');
 var servicesRouter = require('./routes/services');
 var contactRouter = require('./routes/contact');
 
+var businessRouter = require('./routes/businesspage');
+
 
 const { fileLoader } = require('ejs');
 const { writeHeapSnapshot } = require('v8');
@@ -42,6 +44,8 @@ app.use('/about', aboutRouter);
 app.use('/myprojects', projectsRouter);
 app.use('/services', servicesRouter);
 app.use('/contact', contactRouter);
+
+app.use('/businesspage', businessRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
