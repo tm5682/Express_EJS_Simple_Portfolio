@@ -2,8 +2,33 @@
 <html lang="en">
     <head>
     <% include partials/head %> 
+
+    
+    <style type="text/css">
+        table, td, th {  
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      
+      table {
+        border-collapse: collapse;
+        width: 50%;
+       
+      }
+      .table-data{
+          position: relative;
+        left:50px;
+        top:50px;
+      }
+      th, td {
+        padding: 15px;
+      }
+    </style>
+
     </head>
+
     <body>
+
     <% include partials/menu %>
 
     <div class="container-fluid">
@@ -11,23 +36,53 @@
         <br />  
         <br />
 
+        <!-- logout button -->
         <a href="/logout" class="btn btn-secondary">Logout</a>
 
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-          <br />
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-          <br />
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Phone" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-          <br />
-          <a class="btn btn-primary" href="/" role="button">Submit</a>
+
+<!-- Add new Contact -->
+        <a href="/addcontact" class="btn btn-secondary">Add New Contact</a>
+      
+
+
+        <!--====form section start====-->
+    <div class="table-data">
+        <table border="1" >
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Email Address</th>
+                <th>Number</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            
+            <%
+            if(userData.length!=0){
+            var i=1;
+            userData.forEach(function(data){
+            %>
+            <tr>
+                <td><%=i; %></td>
+                <td><%=data.name %></td>
+                <td><%=data.email %></td>
+                <td><%=data.number %></td>
+                <td><a href="/edit/<%=data.id%>">Edit</a></td>
+                <td><a href="/delete/<%=data.id%>">Delete</a></td>
+            </tr>
+            <%  i++; }) %>
+            <% } else{ %>
+                <tr>
+                    <td colspan="7">No Data Found</td>
+                </tr>
+            <% } %>
+        </table>
+        </div>
+
+
+
     </div>
-    
+
     </body>
     <% include partials/script %>
     </html>

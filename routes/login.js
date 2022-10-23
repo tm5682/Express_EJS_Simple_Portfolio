@@ -18,11 +18,6 @@ router.post('/', (req, res, next) => {
   })(req, res, next);
 });
 
-// we are handling logout route through here 
-router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
 
 
 module.exports = router;
