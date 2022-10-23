@@ -3,25 +3,32 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan'); 
+var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var aboutRouter = require('./routes/about');
 var projectsRouter = require('./routes/myprojects');
 var servicesRouter = require('./routes/services');
 var contactRouter = require('./routes/contact');
-
+//new Routers for assignment 2
 var businessRouter = require('./routes/businesspage');
 var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
 var userstatusRouter = require('./routes/userstatus');
+var logoutRouter = require('./routes/logout');
 
 const mongoose = require('mongoose');
+
+const passport = require('passport');
 
 
 const { fileLoader } = require('ejs');
 const { writeHeapSnapshot } = require('v8');
 
 var app = express();
+
+// Passport Config plus we pass passport from here to config
+require('./config/passport')(passport);
 
 
 //MongoDB Atlas
@@ -60,7 +67,20 @@ app.use('/js',express.static(path.join(__dirname, 'public/javascripts')));
 app.use('/css',express.static(path.join(__dirname, 'public/stylesheets')));
 
 
+// Express session
+app.use(
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+  })
+);
 
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Routes
 app.use('/', indexRouter);
 app.use('/about', aboutRouter);
 app.use('/myprojects', projectsRouter);
@@ -71,6 +91,7 @@ app.use('/businesspage', businessRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/userstatus', userstatusRouter);
+app.use('/logout', logoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
