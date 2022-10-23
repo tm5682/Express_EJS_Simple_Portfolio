@@ -15,10 +15,29 @@ var loginRouter = require('./routes/login');
 var registerRouter = require('./routes/register');
 var userstatusRouter = require('./routes/userstatus');
 
+const mongoose = require('mongoose');
+
+
 const { fileLoader } = require('ejs');
 const { writeHeapSnapshot } = require('v8');
 
 var app = express();
+
+
+//MongoDB Atlas
+
+//databasekey
+const db = require('./config/databasekey').MongoURI;
+
+//connection to atlas using mongoose for simplicity using documentation 
+mongoose.connect(db, { useNewUrlParser: true })
+  .then(() => console.log("Mongo Atlas Connected"))
+  .catch(err => console.log(err));
+
+
+//Bodyparser
+app.use(express.urlencoded({ extended: false }));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +58,7 @@ https://stackoverflow.com/questions/5924072/express-js-cant-get-my-static-files-
 app.use('/img',express.static(path.join(__dirname, 'public/images')));
 app.use('/js',express.static(path.join(__dirname, 'public/javascripts')));
 app.use('/css',express.static(path.join(__dirname, 'public/stylesheets')));
+
 
 
 app.use('/', indexRouter);
